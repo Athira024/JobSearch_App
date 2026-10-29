@@ -1,0 +1,62 @@
+﻿@model JobSearch_App.Models.AddJobCls
+@{
+    ViewBag.Title = "AddJob_Pageload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Job Details</h2>
+<div>
+@using (Html.BeginForm("AddJob_Click", "AddJobDB", FormMethod.Post))
+{
+    <div>
+        <label>Job Title:</label>
+        @Html.TextBoxFor(m => m.Job_Title)
+        @Html.ValidationMessageFor(m => m.Job_Title)
+    </div>
+    <br />
+    <div>
+        <label>Skills:</label>
+        @Html.TextAreaFor(m => m.Job_Skills)
+        @Html.ValidationMessageFor(m => m.Job_Skills)
+    </div>
+     <br />
+    <div>
+        <label>Qualification:</label>
+        @Html.TextBoxFor(m => m.Job_Qualification)
+        @Html.ValidationMessageFor(m => m.Job_Qualification)
+    </div>
+     <br />
+    <div>
+        <label>Experience:</label>
+        @Html.TextBoxFor(m => m.Job_Experience)
+        @Html.ValidationMessageFor(m => m.Job_Experience)
+    </div>
+     <br />
+    <div>
+        <label>Salary:</label>
+        @Html.TextBoxFor(m => m.Job_Salary)
+        @Html.ValidationMessageFor(m => m.Job_Salary)
+    </div>
+     <br />
+    <div>
+        <label>Location:</label>
+        @Html.TextBoxFor(m => m.Job_Location)
+        @Html.ValidationMessageFor(m => m.Job_Location)
+    </div>
+     <br />
+    <div>
+        <label>Start Date:</label>
+        @Html.TextBoxFor(m => m.Job_StartDate, "{0:yyyy-MM-dd}",new { type = "date" })
+    </div>
+     <br />
+    <div>
+        <label>End Date:</label>
+        @Html.TextBoxFor(m => m.Job_EndDate,"{0:yyyy-MM-dd}", new { type = "date" } )
+    </div>
+     <br />
+    <div>
+        <input type="submit" value="Add Job" />
+        @Html.DisplayFor(m => m.JobMsg)
+    </div>
+}
+</div>

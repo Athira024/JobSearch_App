@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "EditJob_Pageload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Job</h2>
+@if (TempData["msg"] != null)
+{
+<div class="alert alert-success">
+    @TempData["msg"]
+</div>}
+<div class="container">
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Skills</th>
+                <th>Qualification</th>
+                <th>Experience</th>
+                <th>Salary</th>
+                <th>Location</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Job_Title</td>
+
+                    <td>@item.Job_Skills</td>
+
+                    <td>@item.Job_Qualification</td>
+
+                    <td>@item.Job_Experience</td>
+
+                    <td>@item.Job_Salary</td>
+
+                    <td>@item.Job_Location</td>
+
+                    <td class="date-column">@item.Job_StartDate.ToString("dd-MM-yyyy")</td>
+                    <td class="date-column">@item.Job_EndDate.ToString("dd-MM-yyyy")</td>
+
+                    <td>
+                        @Html.ActionLink("Edit Jobs", "Job_Update", "EditJobDB", new { id = item.Job_Id }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+<style>
+    .date-column {
+        width: 120px;
+        min-width: 120px;
+        white-space: nowrap;
+        text-align: center;
+    }
+</style>
+

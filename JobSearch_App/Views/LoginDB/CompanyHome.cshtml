@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "CompanyHome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Company Home</h2>
+<div class="home-links">
+
+    <p>
+        <a href="@Url.Action("AddJob_Pageload", "AddJobDB")"
+           class="btn btn-primary btn-lg">
+            ➕ Add Job Details
+        </a>
+    </p>
+    <br />
+    <p>
+        <a href="@Url.Action("EditJob_Pageload", "EditJobDB")"
+           class="btn btn-success btn-lg">
+            ✏️ Edit Job Details
+        </a>
+    </p>
+    <br />
+    <p>
+        <a href="@Url.Action("SearchEmp_Pageload", "SearchEmployeeDB")"
+           class="btn btn-info btn-lg">
+            🔍 Search Employees
+        </a>
+    </p>
+</div>
+

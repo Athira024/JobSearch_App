@@ -1,0 +1,568 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JobSearchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company_Reg">
+          <Key>
+            <PropertyRef Name="Comp_Id" />
+          </Key>
+          <Property Name="Comp_Id" Type="int" Nullable="false" />
+          <Property Name="Comp_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Comp_Address" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Comp_Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Comp_Phone" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Job_Application">
+          <Key>
+            <PropertyRef Name="JA_Id" />
+          </Key>
+          <Property Name="JA_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JS_Id" Type="int" Nullable="false" />
+          <Property Name="Comp_Id" Type="int" Nullable="false" />
+          <Property Name="Job_Id" Type="int" Nullable="false" />
+          <Property Name="JA_Date" Type="date" Nullable="false" />
+          <Property Name="JA_Resume" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="JA_Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Job_Tab">
+          <Key>
+            <PropertyRef Name="Job_Id" />
+          </Key>
+          <Property Name="Job_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Comp_Id" Type="int" Nullable="false" />
+          <Property Name="Job_Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Job_Skills" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Job_Qualification" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Job_Experience" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Job_Salary" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Job_Location" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Job_StartDate" Type="date" Nullable="false" />
+          <Property Name="Job_EndDate" Type="date" Nullable="false" />
+          <Property Name="Job_Status" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobSeeker_Reg">
+          <Key>
+            <PropertyRef Name="JS_Id" />
+          </Key>
+          <Property Name="JS_Id" Type="int" Nullable="false" />
+          <Property Name="JS_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="JS_Age" Type="int" Nullable="false" />
+          <Property Name="JS_Phone" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="JS_Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="JS_Address" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="JS_Qualification" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="JS_Experience" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="JS_Skills" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="JS_Photo" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="JS_Status" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Login_Tab">
+          <Key>
+            <PropertyRef Name="Log_Id" />
+          </Key>
+          <Property Name="Log_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reg_Id" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Function Name="sp_CompanyReg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cid" Type="int" Mode="In" />
+          <Parameter Name="cna" Type="varchar" Mode="In" />
+          <Parameter Name="caddr" Type="varchar" Mode="In" />
+          <Parameter Name="cmail" Type="varchar" Mode="In" />
+          <Parameter Name="cphn" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_CountLoginId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="una" Type="varchar" Mode="In" />
+          <Parameter Name="pwd" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_CountUserAppliedJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="int" Mode="In" />
+          <Parameter Name="jobid" Type="int" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="sp_GetJobDatawithId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="jobid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_JobInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="jid" Type="int" Mode="In" />
+          <Parameter Name="jtitle" Type="varchar" Mode="In" />
+          <Parameter Name="jskill" Type="nvarchar" Mode="In" />
+          <Parameter Name="jqual" Type="varchar" Mode="In" />
+          <Parameter Name="jexp" Type="nvarchar" Mode="In" />
+          <Parameter Name="jsalary" Type="nvarchar" Mode="In" />
+          <Parameter Name="jloc" Type="varchar" Mode="In" />
+          <Parameter Name="startdt" Type="date" Mode="In" />
+          <Parameter Name="enddt" Type="date" Mode="In" />
+          <Parameter Name="jstatus" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_JobSearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="qry" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_JobSeekerReg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="jsid" Type="int" Mode="In" />
+          <Parameter Name="na" Type="varchar" Mode="In" />
+          <Parameter Name="ag" Type="int" Mode="In" />
+          <Parameter Name="phn" Type="varchar" Mode="In" />
+          <Parameter Name="mail" Type="varchar" Mode="In" />
+          <Parameter Name="addr" Type="varchar" Mode="In" />
+          <Parameter Name="qual" Type="varchar" Mode="In" />
+          <Parameter Name="exp" Type="nvarchar" Mode="In" />
+          <Parameter Name="skill" Type="varchar" Mode="In" />
+          <Parameter Name="photo" Type="varchar" Mode="In" />
+          <Parameter Name="status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_JobUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="title" Type="varchar" Mode="In" />
+          <Parameter Name="skill" Type="nvarchar" Mode="In" />
+          <Parameter Name="qual" Type="varchar" Mode="In" />
+          <Parameter Name="exp" Type="nvarchar" Mode="In" />
+          <Parameter Name="sal" Type="nvarchar" Mode="In" />
+          <Parameter Name="loc" Type="varchar" Mode="In" />
+          <Parameter Name="startDt" Type="date" Mode="In" />
+          <Parameter Name="endDt" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_LoginId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="una" Type="varchar" Mode="In" />
+          <Parameter Name="pwd" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_LogInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="rid" Type="int" Mode="In" />
+          <Parameter Name="una" Type="varchar" Mode="In" />
+          <Parameter Name="pw" Type="varchar" Mode="In" />
+          <Parameter Name="utype" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_LoginType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="una" Type="varchar" Mode="In" />
+          <Parameter Name="pwd" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_MaxIdLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_PostApplication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="int" Mode="In" />
+          <Parameter Name="companyid" Type="int" Mode="In" />
+          <Parameter Name="jobid" Type="int" Mode="In" />
+          <Parameter Name="appdate" Type="date" Mode="In" />
+          <Parameter Name="resume" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="appstatus" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_SearchEmployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="qry" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_SelectAllJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_SelectCompJob" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="compid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_User_JobView" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="jsid" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="JobSearchModelStoreContainer">
+          <EntitySet Name="Company_Reg" EntityType="Self.Company_Reg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job_Application" EntityType="Self.Job_Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job_Tab" EntityType="Self.Job_Tab" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobSeeker_Reg" EntityType="Self.JobSeeker_Reg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Login_Tab" EntityType="Self.Login_Tab" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JobSearchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company_Reg">
+          <Key>
+            <PropertyRef Name="Comp_Id" />
+          </Key>
+          <Property Name="Comp_Id" Type="Int32" Nullable="false" />
+          <Property Name="Comp_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Comp_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Comp_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Comp_Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Job_Application">
+          <Key>
+            <PropertyRef Name="JA_Id" />
+          </Key>
+          <Property Name="JA_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JS_Id" Type="Int32" Nullable="false" />
+          <Property Name="Comp_Id" Type="Int32" Nullable="false" />
+          <Property Name="Job_Id" Type="Int32" Nullable="false" />
+          <Property Name="JA_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="JA_Resume" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="JA_Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Job_Tab">
+          <Key>
+            <PropertyRef Name="Job_Id" />
+          </Key>
+          <Property Name="Job_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Comp_Id" Type="Int32" Nullable="false" />
+          <Property Name="Job_Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Job_Skills" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Job_Qualification" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Job_Experience" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Job_Salary" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Job_Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Job_StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Job_EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Job_Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobSeeker_Reg">
+          <Key>
+            <PropertyRef Name="JS_Id" />
+          </Key>
+          <Property Name="JS_Id" Type="Int32" Nullable="false" />
+          <Property Name="JS_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JS_Age" Type="Int32" Nullable="false" />
+          <Property Name="JS_Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JS_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JS_Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JS_Qualification" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JS_Experience" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="JS_Skills" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JS_Photo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="JS_Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Login_Tab">
+          <Key>
+            <PropertyRef Name="Log_Id" />
+          </Key>
+          <Property Name="Log_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reg_Id" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="JobSearchEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Company_Reg" EntityType="Self.Company_Reg" />
+          <EntitySet Name="Job_Application" EntityType="Self.Job_Application" />
+          <EntitySet Name="Job_Tab" EntityType="Self.Job_Tab" />
+          <EntitySet Name="JobSeeker_Reg" EntityType="Self.JobSeeker_Reg" />
+          <EntitySet Name="Login_Tab" EntityType="Self.Login_Tab" />
+          <FunctionImport Name="sp_CompanyReg">
+            <Parameter Name="cid" Mode="In" Type="Int32" />
+            <Parameter Name="cna" Mode="In" Type="String" />
+            <Parameter Name="caddr" Mode="In" Type="String" />
+            <Parameter Name="cmail" Mode="In" Type="String" />
+            <Parameter Name="cphn" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CountLoginId" ReturnType="Collection(Int32)">
+            <Parameter Name="una" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CountUserAppliedJob">
+            <Parameter Name="userid" Mode="In" Type="Int32" />
+            <Parameter Name="jobid" Mode="In" Type="Int32" />
+            <Parameter Name="status" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetJobDatawithId" ReturnType="Collection(JobSearchModel.sp_GetJobDatawithId_Result)">
+          <Parameter Name="jobid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_JobInsert">
+            <Parameter Name="jid" Mode="In" Type="Int32" />
+            <Parameter Name="jtitle" Mode="In" Type="String" />
+            <Parameter Name="jskill" Mode="In" Type="String" />
+            <Parameter Name="jqual" Mode="In" Type="String" />
+            <Parameter Name="jexp" Mode="In" Type="String" />
+            <Parameter Name="jsalary" Mode="In" Type="String" />
+            <Parameter Name="jloc" Mode="In" Type="String" />
+            <Parameter Name="startdt" Mode="In" Type="DateTime" />
+            <Parameter Name="enddt" Mode="In" Type="DateTime" />
+            <Parameter Name="jstatus" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_JobSearch">
+          <Parameter Name="qry" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_JobSeekerReg">
+            <Parameter Name="jsid" Mode="In" Type="Int32" />
+            <Parameter Name="na" Mode="In" Type="String" />
+            <Parameter Name="ag" Mode="In" Type="Int32" />
+            <Parameter Name="phn" Mode="In" Type="String" />
+            <Parameter Name="mail" Mode="In" Type="String" />
+            <Parameter Name="addr" Mode="In" Type="String" />
+            <Parameter Name="qual" Mode="In" Type="String" />
+            <Parameter Name="exp" Mode="In" Type="String" />
+            <Parameter Name="skill" Mode="In" Type="String" />
+            <Parameter Name="photo" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_JobUpdate">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="title" Mode="In" Type="String" />
+            <Parameter Name="skill" Mode="In" Type="String" />
+            <Parameter Name="qual" Mode="In" Type="String" />
+            <Parameter Name="exp" Mode="In" Type="String" />
+            <Parameter Name="sal" Mode="In" Type="String" />
+            <Parameter Name="loc" Mode="In" Type="String" />
+            <Parameter Name="startDt" Mode="In" Type="DateTime" />
+            <Parameter Name="endDt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_LoginId" ReturnType="Collection(Int32)">
+            <Parameter Name="una" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_LogInsert">
+            <Parameter Name="rid" Mode="In" Type="Int32" />
+            <Parameter Name="una" Mode="In" Type="String" />
+            <Parameter Name="pw" Mode="In" Type="String" />
+            <Parameter Name="utype" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_LoginType" ReturnType="Collection(String)">
+            <Parameter Name="una" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MaxIdLogin" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="sp_PostApplication">
+            <Parameter Name="userid" Mode="In" Type="Int32" />
+            <Parameter Name="companyid" Mode="In" Type="Int32" />
+            <Parameter Name="jobid" Mode="In" Type="Int32" />
+            <Parameter Name="appdate" Mode="In" Type="DateTime" />
+            <Parameter Name="resume" Mode="In" Type="String" />
+            <Parameter Name="appstatus" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SelectCompJob" ReturnType="Collection(JobSearchModel.sp_SelectCompJob_Result)">
+          <Parameter Name="compid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SearchEmployee">
+          <Parameter Name="qry" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_SelectAllJob" ReturnType="Collection(JobSearchModel.sp_SelectAllJob_Result1)" />
+          <FunctionImport Name="sp_User_JobView" ReturnType="Collection(JobSearchModel.sp_User_JobView_Result)">
+          <Parameter Name="jsid" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_GetJobDatawithId_Result">
+          <Property Type="Int32" Name="Job_Id" Nullable="false" />
+          <Property Type="Int32" Name="Comp_Id" Nullable="false" />
+          <Property Type="String" Name="Job_Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Skills" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Job_Qualification" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Job_Experience" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Salary" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Location" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Job_StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="Job_EndDate" Nullable="false" />
+          <Property Type="String" Name="Job_Status" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_SelectAllJob_Result">
+          <Property Type="Int32" Name="Job_Id" Nullable="false" />
+          <Property Type="Int32" Name="Comp_Id" Nullable="false" />
+          <Property Type="String" Name="Job_Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Skills" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Job_Qualification" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Job_Experience" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Salary" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Location" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Job_StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="Job_EndDate" Nullable="false" />
+          <Property Type="String" Name="Job_Status" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_SelectCompJob_Result">
+          <Property Type="Int32" Name="Job_Id" Nullable="false" />
+          <Property Type="Int32" Name="Comp_Id" Nullable="false" />
+          <Property Type="String" Name="Job_Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Skills" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Job_Qualification" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Job_Experience" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Salary" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Location" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Job_StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="Job_EndDate" Nullable="false" />
+          <Property Type="String" Name="Job_Status" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_SelectAllJob_Result1">
+          <Property Type="String" Name="Comp_Name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Job_Id" Nullable="false" />
+          <Property Type="Int32" Name="Comp_Id" Nullable="false" />
+          <Property Type="String" Name="Job_Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Skills" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Job_Qualification" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="Job_Experience" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Salary" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Location" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Job_StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="Job_EndDate" Nullable="false" />
+          <Property Type="String" Name="Job_Status" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="sp_User_JobView_Result">
+          <Property Type="String" Name="Comp_Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Job_Location" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="JA_Date" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JobSearchModelStoreContainer" CdmEntityContainer="JobSearchEntities">
+          <EntitySetMapping Name="Company_Reg">
+            <EntityTypeMapping TypeName="JobSearchModel.Company_Reg">
+              <MappingFragment StoreEntitySet="Company_Reg">
+                <ScalarProperty Name="Comp_Id" ColumnName="Comp_Id" />
+                <ScalarProperty Name="Comp_Name" ColumnName="Comp_Name" />
+                <ScalarProperty Name="Comp_Address" ColumnName="Comp_Address" />
+                <ScalarProperty Name="Comp_Email" ColumnName="Comp_Email" />
+                <ScalarProperty Name="Comp_Phone" ColumnName="Comp_Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Job_Application">
+            <EntityTypeMapping TypeName="JobSearchModel.Job_Application">
+              <MappingFragment StoreEntitySet="Job_Application">
+                <ScalarProperty Name="JA_Id" ColumnName="JA_Id" />
+                <ScalarProperty Name="JS_Id" ColumnName="JS_Id" />
+                <ScalarProperty Name="Comp_Id" ColumnName="Comp_Id" />
+                <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+                <ScalarProperty Name="JA_Date" ColumnName="JA_Date" />
+                <ScalarProperty Name="JA_Resume" ColumnName="JA_Resume" />
+                <ScalarProperty Name="JA_Status" ColumnName="JA_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Job_Tab">
+            <EntityTypeMapping TypeName="JobSearchModel.Job_Tab">
+              <MappingFragment StoreEntitySet="Job_Tab">
+                <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+                <ScalarProperty Name="Comp_Id" ColumnName="Comp_Id" />
+                <ScalarProperty Name="Job_Title" ColumnName="Job_Title" />
+                <ScalarProperty Name="Job_Skills" ColumnName="Job_Skills" />
+                <ScalarProperty Name="Job_Qualification" ColumnName="Job_Qualification" />
+                <ScalarProperty Name="Job_Experience" ColumnName="Job_Experience" />
+                <ScalarProperty Name="Job_Salary" ColumnName="Job_Salary" />
+                <ScalarProperty Name="Job_Location" ColumnName="Job_Location" />
+                <ScalarProperty Name="Job_StartDate" ColumnName="Job_StartDate" />
+                <ScalarProperty Name="Job_EndDate" ColumnName="Job_EndDate" />
+                <ScalarProperty Name="Job_Status" ColumnName="Job_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobSeeker_Reg">
+            <EntityTypeMapping TypeName="JobSearchModel.JobSeeker_Reg">
+              <MappingFragment StoreEntitySet="JobSeeker_Reg">
+                <ScalarProperty Name="JS_Id" ColumnName="JS_Id" />
+                <ScalarProperty Name="JS_Name" ColumnName="JS_Name" />
+                <ScalarProperty Name="JS_Age" ColumnName="JS_Age" />
+                <ScalarProperty Name="JS_Phone" ColumnName="JS_Phone" />
+                <ScalarProperty Name="JS_Email" ColumnName="JS_Email" />
+                <ScalarProperty Name="JS_Address" ColumnName="JS_Address" />
+                <ScalarProperty Name="JS_Qualification" ColumnName="JS_Qualification" />
+                <ScalarProperty Name="JS_Experience" ColumnName="JS_Experience" />
+                <ScalarProperty Name="JS_Skills" ColumnName="JS_Skills" />
+                <ScalarProperty Name="JS_Photo" ColumnName="JS_Photo" />
+                <ScalarProperty Name="JS_Status" ColumnName="JS_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Login_Tab">
+            <EntityTypeMapping TypeName="JobSearchModel.Login_Tab">
+              <MappingFragment StoreEntitySet="Login_Tab">
+                <ScalarProperty Name="Log_Id" ColumnName="Log_Id" />
+                <ScalarProperty Name="Reg_Id" ColumnName="Reg_Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_CompanyReg" FunctionName="JobSearchModel.Store.sp_CompanyReg" />
+          <FunctionImportMapping FunctionImportName="sp_CountLoginId" FunctionName="JobSearchModel.Store.sp_CountLoginId" />
+          <FunctionImportMapping FunctionImportName="sp_CountUserAppliedJob" FunctionName="JobSearchModel.Store.sp_CountUserAppliedJob" />
+          <FunctionImportMapping FunctionImportName="sp_GetJobDatawithId" FunctionName="JobSearchModel.Store.sp_GetJobDatawithId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JobSearchModel.sp_GetJobDatawithId_Result">
+                <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+                <ScalarProperty Name="Comp_Id" ColumnName="Comp_Id" />
+                <ScalarProperty Name="Job_Title" ColumnName="Job_Title" />
+                <ScalarProperty Name="Job_Skills" ColumnName="Job_Skills" />
+                <ScalarProperty Name="Job_Qualification" ColumnName="Job_Qualification" />
+                <ScalarProperty Name="Job_Experience" ColumnName="Job_Experience" />
+                <ScalarProperty Name="Job_Salary" ColumnName="Job_Salary" />
+                <ScalarProperty Name="Job_Location" ColumnName="Job_Location" />
+                <ScalarProperty Name="Job_StartDate" ColumnName="Job_StartDate" />
+                <ScalarProperty Name="Job_EndDate" ColumnName="Job_EndDate" />
+                <ScalarProperty Name="Job_Status" ColumnName="Job_Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_JobInsert" FunctionName="JobSearchModel.Store.sp_JobInsert" />
+          <FunctionImportMapping FunctionImportName="sp_JobSearch" FunctionName="JobSearchModel.Store.sp_JobSearch" />
+          <FunctionImportMapping FunctionImportName="sp_JobSeekerReg" FunctionName="JobSearchModel.Store.sp_JobSeekerReg" />
+          <FunctionImportMapping FunctionImportName="sp_JobUpdate" FunctionName="JobSearchModel.Store.sp_JobUpdate" />
+          <FunctionImportMapping FunctionImportName="sp_LoginId" FunctionName="JobSearchModel.Store.sp_LoginId" />
+          <FunctionImportMapping FunctionImportName="sp_LogInsert" FunctionName="JobSearchModel.Store.sp_LogInsert" />
+          <FunctionImportMapping FunctionImportName="sp_LoginType" FunctionName="JobSearchModel.Store.sp_LoginType" />
+          <FunctionImportMapping FunctionImportName="sp_MaxIdLogin" FunctionName="JobSearchModel.Store.sp_MaxIdLogin" />
+          <FunctionImportMapping FunctionImportName="sp_PostApplication" FunctionName="JobSearchModel.Store.sp_PostApplication" />
+          <FunctionImportMapping FunctionImportName="sp_SelectCompJob" FunctionName="JobSearchModel.Store.sp_SelectCompJob">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JobSearchModel.sp_SelectCompJob_Result">
+                <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+                <ScalarProperty Name="Comp_Id" ColumnName="Comp_Id" />
+                <ScalarProperty Name="Job_Title" ColumnName="Job_Title" />
+                <ScalarProperty Name="Job_Skills" ColumnName="Job_Skills" />
+                <ScalarProperty Name="Job_Qualification" ColumnName="Job_Qualification" />
+                <ScalarProperty Name="Job_Experience" ColumnName="Job_Experience" />
+                <ScalarProperty Name="Job_Salary" ColumnName="Job_Salary" />
+                <ScalarProperty Name="Job_Location" ColumnName="Job_Location" />
+                <ScalarProperty Name="Job_StartDate" ColumnName="Job_StartDate" />
+                <ScalarProperty Name="Job_EndDate" ColumnName="Job_EndDate" />
+                <ScalarProperty Name="Job_Status" ColumnName="Job_Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_SearchEmployee" FunctionName="JobSearchModel.Store.sp_SearchEmployee" />
+          <FunctionImportMapping FunctionImportName="sp_SelectAllJob" FunctionName="JobSearchModel.Store.sp_SelectAllJob">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JobSearchModel.sp_SelectAllJob_Result1">
+                <ScalarProperty Name="Comp_Name" ColumnName="Comp_Name" />
+                <ScalarProperty Name="Job_Id" ColumnName="Job_Id" />
+                <ScalarProperty Name="Comp_Id" ColumnName="Comp_Id" />
+                <ScalarProperty Name="Job_Title" ColumnName="Job_Title" />
+                <ScalarProperty Name="Job_Skills" ColumnName="Job_Skills" />
+                <ScalarProperty Name="Job_Qualification" ColumnName="Job_Qualification" />
+                <ScalarProperty Name="Job_Experience" ColumnName="Job_Experience" />
+                <ScalarProperty Name="Job_Salary" ColumnName="Job_Salary" />
+                <ScalarProperty Name="Job_Location" ColumnName="Job_Location" />
+                <ScalarProperty Name="Job_StartDate" ColumnName="Job_StartDate" />
+                <ScalarProperty Name="Job_EndDate" ColumnName="Job_EndDate" />
+                <ScalarProperty Name="Job_Status" ColumnName="Job_Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_User_JobView" FunctionName="JobSearchModel.Store.sp_User_JobView">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JobSearchModel.sp_User_JobView_Result">
+                <ScalarProperty Name="Comp_Name" ColumnName="Comp_Name" />
+                <ScalarProperty Name="Job_Title" ColumnName="Job_Title" />
+                <ScalarProperty Name="Job_Location" ColumnName="Job_Location" />
+                <ScalarProperty Name="JA_Date" ColumnName="JA_Date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

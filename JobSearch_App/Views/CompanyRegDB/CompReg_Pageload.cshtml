@@ -1,0 +1,72 @@
+﻿@model JobSearch_App.Models.CompanyRegCls
+@{
+    ViewBag.Title = "CompReg_Pageload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Company Registration </h2>
+<div>
+    @using (Html.BeginForm("CompReg_Click", "CompanyRegDB", FormMethod.Post))
+    {
+        <div>
+            <label>Company Name:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Comp_Name)
+            @Html.ValidationMessageFor(m => m.Comp_Name)
+        </div>
+        <br />
+        <div>
+            <label>Address:</label>
+        </div>
+        <div>
+            @Html.TextAreaFor(m => m.Comp_Address)
+            @Html.ValidationMessageFor(m => m.Comp_Address)
+        </div>
+        <br />
+        <div>
+            <label>Email:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Comp_Email)
+            @Html.ValidationMessageFor(m => m.Comp_Email)
+        </div>
+        <br />
+        <div>
+            <label>Phone:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Comp_Phone)
+            @Html.ValidationMessageFor(m => m.Comp_Phone)
+        </div>
+        <br />
+        <div>
+            <label>Username:</label>
+        </div>
+        <div>
+            @Html.TextBoxFor(m => m.Username)
+            @Html.ValidationMessageFor(m => m.Username)
+        </div>
+        <br />
+        <div>
+            <label>Password:</label>
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.Pwd)
+        </div>
+        <br />
+        <div>
+            <label>Confirm Password:</label>
+        </div>
+        <div>
+            @Html.PasswordFor(m => m.Cpwd)
+            @Html.ValidationMessageFor(m => m.Cpwd)
+        </div>
+        <br />
+        <div>
+            <input type="submit" value="Insert" />
+            @Html.DisplayFor(m => m.CompRegMsg)
+        </div>
+    }
+</div>
+

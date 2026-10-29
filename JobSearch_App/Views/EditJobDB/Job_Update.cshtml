@@ -1,0 +1,124 @@
+﻿@model JobSearch_App.Models.AddJobCls
+@{
+    ViewBag.Title = "Job_Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Job_Update</h2>
+
+<div class="container">
+
+    <h2>Edit Job Details</h2>
+
+    <br />
+
+    @using (Html.BeginForm("Job_Update", "EditJobDB", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Job_Id)
+
+        <div class="form-group">
+            <label>Job Title</label>
+            @Html.TextBoxFor(
+                m => m.Job_Title,
+                new { @class = "form-control" }
+            )
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <label>Skills</label>
+            @Html.TextAreaFor(
+                m => m.Job_Skills,
+                new { @class = "form-control", rows = 3 }
+            )
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <label>Qualification</label>
+            @Html.TextBoxFor(
+                m => m.Job_Qualification,
+                new { @class = "form-control" }
+            )
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <label>Experience</label>
+            @Html.TextBoxFor(
+                m => m.Job_Experience,
+                new
+                {
+                    @class = "form-control"
+                }
+            )
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <label>Salary</label>
+            @Html.TextBoxFor(
+                m => m.Job_Salary,
+                new { @class = "form-control" }
+            )
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <label>Location</label>
+            @Html.TextBoxFor(
+                m => m.Job_Location,
+                new { @class = "form-control" }
+            )
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <label>Start Date</label>
+
+            @Html.TextBoxFor(
+                m => m.Job_StartDate,
+                "{0:yyyy-MM-dd}",
+                new
+                {
+                    @class = "form-control",
+                    type = "date"
+                }
+            )
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <label>End Date</label>
+
+            @Html.TextBoxFor(
+                m => m.Job_EndDate,
+                "{0:yyyy-MM-dd}",
+                new
+                {
+                    @class = "form-control",
+                    type = "date"
+                }
+            )
+        </div>
+
+        <br />
+
+        <input type="submit"
+               value="Update Job"
+               class="btn btn-success" />
+
+        <a href="@Url.Action("EditJob_Pageload", "EditJobDB")"
+           class="btn btn-secondary">
+            Cancel
+        </a>
+    }
+
+</div>

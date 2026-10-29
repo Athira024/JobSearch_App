@@ -1,0 +1,44 @@
+﻿@model JobSearch_App.Models.UserAppliedJobs
+@{
+    ViewBag.Title = "MyApplications";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-4">
+    <h2>Applied Jobs</h2>
+    <hr />
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Company Name</th>
+                <th>Job Title</th>
+                <th>Location</th>
+                <th>Application Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.appliedJobList != null && Model.appliedJobList.Any())
+            {
+                foreach (var item in Model.appliedJobList)
+                {
+                    <tr>
+                        <td>@item.Comp_Name</td>
+                        <td>@item.Job_Title</td>
+                        <td>@item.Job_Location</td>
+                        <td>@item.JA_Date.ToString("dd-MM-yyyy")</td>
+                    </tr> 
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-center alert-warning">
+                        You have not applied to any jobs yet.
+                    </td>
+                </tr>           
+            }
+        </tbody>
+    </table>
+</div>

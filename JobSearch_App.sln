@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.37327.17
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSearch_App", "JobSearch_App\JobSearch_App.csproj", "{92A3D291-040A-40E5-A4E5-C4729BE9B5A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92A3D291-040A-40E5-A4E5-C4729BE9B5A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A3D291-040A-40E5-A4E5-C4729BE9B5A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A3D291-040A-40E5-A4E5-C4729BE9B5A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A3D291-040A-40E5-A4E5-C4729BE9B5A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {57BDC603-16C0-41C6-A496-A1C6EE842E48}
+	EndGlobalSection
+EndGlobal

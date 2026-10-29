@@ -1,0 +1,152 @@
+﻿@model JobSearch_App.Models.JobSearchCls
+@{
+    ViewBag.Title = "JobSeekerHome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h2 class="text-center">Explore Career Opportunities</h2>
+    <br />
+    @using (Html.BeginForm("searchjob_click", "LoginDB", FormMethod.Post))
+    {
+        <table style="width:100%;border:1px solid lightgray;background-color:LightGray;">
+            <tr>
+
+                <td style="width:25%;padding-right:10px;">
+                    @Html.TextBoxFor(m => m.insertse.Comp_Name,
+           new { @style = "width:100%;", placeholder = "Company" })
+                </td>
+                <td style="width:25%;padding-right:10px;">
+                    @Html.TextBoxFor(m => m.insertse.Job_Skills,
+           new { @style = "width:100%;", placeholder = "Skills" })
+                </td>
+                <td style="width:25%;padding-right:10px;">
+                    @Html.TextBoxFor(m => m.insertse.Job_Title,
+           new { @style = "width:100%;", placeholder = "Job Title" })
+                </td>
+                <td style="width:25%;padding-right:10px;">
+                    @Html.TextBoxFor(m => m.insertse.Job_Experience,
+      new { @style = "width:100%;", placeholder = "Experience" })
+                </td>
+                <td style="width:25%;padding-right:10px;">
+                    <input type="submit" value="Search" class="buttons" style="background-color:navy;color:white;padding:5px 10px;" />
+                </td>
+                <td>
+                    <a href="@Url.Action("MyApplications", "LoginDB")" class="btn btn-primary">Applied Jobs</a>
+                </td>
+            </tr>
+        </table>
+    }
+    <br />
+    <div class="table-responsive">
+        <table class="table table-hover align-middle custom-job-table">
+            <tr>
+                <th>
+                    <label>Company</label>
+                </th>
+                <th>
+                    <label>Job Title</label>
+                </th>
+                <th style="width: 25%;">
+                    <label>Skills</label>
+                </th>
+                <th style="width: 18%;">
+                    <label>Qualification</label>
+                </th>
+                <th>
+                    <label>Experience</label>
+                </th>
+                <th>
+                    <label>Salary(LPA)</label>
+                </th>
+                <th>
+                    <label>Location</label>
+                </th>
+                <th class="date-column">
+                    <label>End Date</label>
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.selectjob)
+            {
+                <tr>
+                    <td class="fw-bold">
+                        @Html.DisplayFor(modelItem => item.Comp_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Job_Title)
+                    </td>
+                    <td>
+                        <div class="line-clamp">
+                            @Html.DisplayFor(modelItem => item.Job_Skills)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="line-clamp">
+                            @Html.DisplayFor(modelItem => item.Job_Qualification)
+                        </div>
+                    </td>
+                    <td class="text-nowrap">
+                        @Html.DisplayFor(modelItem => item.Job_Experience)
+                    </td>
+                    <td class="text-nowrap">
+                        @Html.DisplayFor(modelItem => item.Job_Salary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Job_Location)
+                    </td>
+                    <td class="text-nowrap">
+                        @*@Html.DisplayFor(modelItem=>item.Job_EndDate)*@
+                        @item.Job_EndDate.ToString("dd/MM/yyyy")
+                    </td>
+                    <td class="text-end text-nowrap">
+                        @Html.ActionLink("Apply Now", "Application_load", "JobApplicationDB",
+                new { jid = item.Job_Id, cid = item.Comp_Id }, new { @class = "button" })
+                    </td>
+
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<style>
+
+    .custom-job-table td {
+        vertical-align: middle;
+        font-size: 14px;
+        padding: 14px 10px;
+    }
+
+    .custom-job-table th {
+        font-size: 14px;
+        padding: 14px 10px;
+        white-space: nowrap;
+    }
+    /* .col-width {
+            width: 25% !important;
+            min-width: 150px;
+        }
+        .col-width1 {
+            width: 25% !important;
+            min-width: 100px;
+        }*/
+
+    /* Truncate text after 2 lines */
+    .line-clamp {
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Shows only 2 lines */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: all 0.3s ease;
+    }
+
+    /* Expand when hovering over the cell */
+    .line-clamp:hover {
+        -webkit-line-clamp: initial;
+        overflow: visible;
+    }
+</style>
+
+

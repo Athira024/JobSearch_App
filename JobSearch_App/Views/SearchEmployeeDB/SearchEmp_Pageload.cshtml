@@ -1,0 +1,138 @@
+﻿@model JobSearch_App.Models.EmployeeSearchCls
+@{
+    ViewBag.Title = "SearchEmp_Pageload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h2 class="text-center">Search Employees</h2>
+    <br />
+
+    @using (Html.BeginForm("searchemployee_click",
+                           "SearchEmployeeDB",
+                           FormMethod.Post))
+    {
+        <table style="width:100%; border:1px solid lightgray;
+                      background-color:LightGray;">
+            <tr>
+                <td style="width:25%; padding:10px;">
+                    @Html.TextBoxFor(m => m.inserte.JS_Qualification,
+                        new
+                             {
+                            @style = "width:100%;",
+                            placeholder = "Qualification"
+                        })
+                </td>
+
+                <td style="width:25%; padding:10px;">
+                    @Html.TextBoxFor(m => m.inserte.JS_Experience,
+                        new
+                             {
+                            @style = "width:100%;",
+                            placeholder = "Experience"
+                        })
+                </td>
+
+                <td style="width:25%; padding:10px;">
+                    @Html.TextBoxFor(m => m.inserte.JS_Skills,
+                        new
+                             {
+                            @style = "width:100%;",
+                            placeholder = "Skills"
+                        })
+                </td>
+
+                <td style="width:25%; padding:10px;">
+                    <input type="submit"
+                           value="Search"
+                           class="buttons"
+                           style="background-color:navy;
+                                  color:white;padding:5px 10px;" />
+                </td>
+            </tr>
+        </table>}
+
+    <br />
+
+    <table class="table w3-container">
+        <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Qualification</th>
+            <th>Experience(In Years)</th>
+            <th>Skills</th>
+        </tr>
+
+        @if (Model.selectemployee != null &&
+             Model.selectemployee.Any())
+        {
+            foreach (var item in Model.selectemployee)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.JS_Photo))
+                        {
+                            <img src="@Url.Content("~/JobSeekerPhotos/" + System.IO.Path.GetFileName(item.JS_Photo))"
+                                 alt="Employee Photo"
+                                 style="width:60px;height:60px;
+                                        object-fit:cover;" />}
+                    </td>
+
+                    <td class="wrap-col">
+                        @Html.DisplayFor(m => item.JS_Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.JS_Age)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.JS_Phone)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.JS_Email)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.JS_Address)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.JS_Qualification)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.JS_Experience)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.JS_Skills)
+                    </td>
+                </tr>
+ }
+        }
+        else
+        {
+            <tr>
+                <td colspan="9" class="text-center">
+                    No employees found.
+                </td>
+            </tr>
+}
+    </table>
+
+</div>
+<style>
+    .wrap-col {
+        width: 120px;
+        min-width: 120px;
+        white-space: nowrap;
+        text-align: center;
+    }
+</style>

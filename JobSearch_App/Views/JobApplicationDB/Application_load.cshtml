@@ -1,0 +1,105 @@
+﻿@model JobSearch_App.Models.JobApplicationCls
+@{
+    ViewBag.Title = "Application_load";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card" style="max-width:800px; margin:30px auto; padding:25px; border:1px solid #ddd; border-radius:10px; box-shadow:0 3px 10px #ddd;">
+
+    <div class="row">
+        <div class="column" style="width:100%;">
+
+            <h2 style="text-align:center">Job Application</h2>
+            <hr />
+
+            <table class="table">
+
+                @foreach (var item in Model.selectjob)
+                {
+                    <tr>
+                        <td>
+                            <h2>
+                                <b>@Html.DisplayFor(modelItem => item.Job_Title)</b>
+                            </h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Job_Location)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Experience:</label>
+                            @Html.DisplayFor(modelItem => item.Job_Experience)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Skills:</label>
+                            @Html.DisplayFor(modelItem => item.Job_Skills)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Qualification:</label>
+                            @Html.DisplayFor(modelItem => item.Job_Qualification)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Salary:</label>
+                            @Html.DisplayFor(modelItem => item.Job_Salary)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Apply Before:</label>
+                            @item.Job_EndDate.ToString("dd/MM/yyyy")
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+            @if (ViewBag.isapplied == 1)
+            {
+                <input type="button"
+                       value="Already Applied"
+                       class="button"
+                       disabled="disabled"
+                       style="color:navajowhite; background-color:darkslateblue; padding:10px 20px;" />
+            }
+            else
+            {
+                using (Html.BeginForm("Application_Click",
+                    "JobApplicationDB",
+                    FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+                {
+                    <div style="margin:15px 0;">
+                        <label for="file">Add Resume:</label>
+                        <input type="file"
+                               name="file"
+                               id="file"
+                               accept=".pdf,.doc,.docx"
+                               required />
+                    </div>
+
+                    <input type="submit"
+                           value="Submit Your Application"
+                           class="button"
+                           style="text-align:center; color:navajowhite; background-color:darkslateblue; padding:10px 20px;" />
+                }
+            }
+
+            <div style="margin-top:20px;">
+                @Html.ActionLink("Back to Jobs", "JobSeekerHome", "LoginDB")
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
